@@ -1,0 +1,49 @@
+﻿---
+import { siteConfig, type ExperienceItem } from '../data/site';
+---
+
+<section class="w-full pt-[72px] md:pt-[112px]">
+  <h2 class="text-[32px] md:text-[40px] font-semibold text-[#000000] leading-[1.1] tracking-[-0.015em]">
+    Experience
+  </h2>
+
+  <div class="mt-8 md:mt-10 flex flex-col">
+    {
+      siteConfig.experiences.map((item: ExperienceItem, index: number) => {
+        const isLast = index === siteConfig.experiences.length - 1;
+        return (
+          <div
+            class:list={[
+              "flex flex-col sm:flex-row sm:items-center justify-between py-4 md:py-0 md:h-[80px] gap-2 sm:gap-0",
+              !isLast && "border-b border-[#E5E5E5]"
+            ]}
+          >
+            <!-- Left: 48px square logo + Company Name -->
+            <div class="flex items-center gap-4">
+              <img
+                src={item.logo}
+                alt={`${item.company} logo`}
+                loading="lazy"
+                decoding="async"
+                class="w-[48px] h-[48px] rounded-[8px] object-cover shrink-0"
+              />
+              <h4 class="text-[18px] md:text-[20px] font-medium text-[#000000] leading-snug">
+                {item.company}
+              </h4>
+            </div>
+
+            <!-- Right: Role + Years -->
+            <div class="pl-[64px] sm:pl-0 flex items-center gap-2 sm:gap-3 flex-wrap">
+              <span class="text-[15px] md:text-[16px] text-[#737373] font-normal">
+                {item.role}
+              </span>
+              <span class="text-[16px] md:text-[18px] font-medium text-[#000000]">
+                {item.years}
+              </span>
+            </div>
+          </div>
+        );
+      })
+    }
+  </div>
+</section>

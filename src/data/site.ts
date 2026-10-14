@@ -10,6 +10,13 @@
   href?: string;
 }
 
+export interface ExperienceItem {
+  company: string;
+  role: string;
+  years: string;
+  logo: string;
+}
+
 export interface SiteConfig {
   name: string;
   title: string;
@@ -18,6 +25,7 @@ export interface SiteConfig {
   email: string;
   xUrl: string;
   projects: Project[];
+  experiences: ExperienceItem[];
 }
 
 export const siteConfig: SiteConfig = {
@@ -74,6 +82,38 @@ export const siteConfig: SiteConfig = {
       aspect: "1.13/1",
       radius: "radius-1",
       featured: false,
+    },
+  ],
+  experiences: [
+    {
+      company: "Applatch/ApplatchKids",
+      role: "Staff Product Designer",
+      years: "2025 - Present",
+      logo: "/images/experience/applatch.png",
+    },
+    {
+      company: "Proattire Technology",
+      role: "Product Designer",
+      years: "2023 - 2025",
+      logo: "/images/experience/proattire.png",
+    },
+    {
+      company: "Freelance",
+      role: "Product Designer",
+      years: "2022 - 2023",
+      logo: "/images/experience/freelance.svg",
+    },
+    {
+      company: "Foodyours",
+      role: "UI/UX Designer",
+      years: "2021 - 2022",
+      logo: "/images/experience/foodyours.png",
+    },
+    {
+      company: "Kufuta",
+      role: "UI/UX Designer",
+      years: "2020",
+      logo: "/images/experience/kufuta.png",
     },
   ],
 };
