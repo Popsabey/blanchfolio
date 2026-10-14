@@ -1,0 +1,45 @@
+﻿---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = 'Abiodun Popoola — Designer & UI Engineer',
+  description = 'I design and build clean, intuitive digital experiences for everyday use.',
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Open Graph / Meta -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+
+    <!-- Google Fonts Inter preconnect & display=swap fallback -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-white text-[#000000] font-sans antialiased min-h-screen selection:bg-[#4361EE] selection:text-white">
+    <!-- Centered content container: 988px max-width on 1440px desktop with horizontal padding on smaller screens -->
+    <div class="w-full max-w-[988px] mx-auto px-5 sm:px-6 md:px-8">
+      <slot />
+    </div>
+  </body>
+</html>

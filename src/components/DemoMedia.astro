@@ -1,0 +1,157 @@
+﻿---
+interface Props {
+  poster: string;
+  video?: string | { mp4?: string; webm?: string } | null;
+  alt?: string;
+  aspect?: string;
+  radius?: 'radius-1' | 'radius-2' | string;
+  class?: string;
+}
+
+const {
+  poster,
+  video = null,
+  alt = 'Project media showcase',
+  aspect,
+  radius = 'radius-2',
+  class: className = '',
+} = Astro.props;
+
+let webmSrc: string | null = null;
+let mp4Src: string | null = null;
+
+if (typeof video === 'string' && video.trim() !== '') {
+  if (video.endsWith('.webm')) {
+    webmSrc = video;
+    mp4Src = video.replace(/\.webm$/, '.mp4');
+  } else if (video.endsWith('.mp4')) {
+    webmSrc = video.replace(/\.mp4$/, '.webm');
+    mp4Src = video;
+  } else {
+    webmSrc = `${video}.webm`;
+    mp4Src = `${video}.mp4`;
+  }
+} else if (video && typeof video === 'object') {
+  webmSrc = video.webm ?? null;
+  mp4Src = video.mp4 ?? null;
+}
+
+const hasVideo = Boolean(webmSrc || mp4Src);
+
+const radiusClass =
+  radius === 'radius-1'
+    ? 'rounded-[8px]'
+    : radius === 'radius-2'
+      ? 'rounded-[12px]'
+      : radius;
+---
+
+<div
+  class:list={[
+    'demo-media-container relative w-full overflow-hidden bg-[#F1F1F1]',
+    radiusClass,
+    className,
+  ]}
+  style={aspect ? `aspect-ratio: ${aspect};` : undefined}
+>
+  {
+    hasVideo ? (
+      <>
+        <img
+          src={poster}
+          alt={alt}
+          loading="lazy"
+          decoding="async"
+          class="demo-media-poster w-full h-full object-cover hidden"
+        />
+        <video
+          autoplay
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster={poster}
+          class="demo-media-video w-full h-full object-cover block"
+          aria-label={alt}
+        >
+          {webmSrc && <source src={webmSrc} type="video/webm" />}
+          {mp4Src && <source src={mp4Src} type="video/mp4" />}
+          <img
+            src={poster}
+            alt={alt}
+            loading="lazy"
+            decoding="async"
+            class="w-full h-full object-cover"
+          />
+        </video>
+      </>
+    ) : (
+      <img
+        src={poster}
+        alt={alt}
+        loading="lazy"
+        decoding="async"
+        class="w-full h-full object-cover block"
+      />
+    )
+  }
+</div>
+
+<style>
+  @media (prefers-reduced-motion: reduce) {
+    .demo-media-video {
+      display: none !important;
+    }
+    .demo-media-poster {
+      display: block !important;
+    }
+  }
+</style>
+
+<script>
+  function setupDemoVideos() {
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const containers = document.querySelectorAll<HTMLElement>('.demo-media-container');
+
+    containers.forEach((container) => {
+      const video = container.querySelector<HTMLVideoElement>('video.demo-media-video');
+      const poster = container.querySelector<HTMLImageElement>('img.demo-media-poster');
+
+      if (!video) return;
+
+      if (prefersReducedMotion) {
+        video.pause();
+        video.removeAttribute('autoplay');
+        video.style.display = 'none';
+        if (poster) {
+          poster.style.display = 'block';
+        }
+        return;
+      }
+
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                video.play().catch(() => {});
+              } else {
+                video.pause();
+              }
+            });
+          },
+          { threshold: 0.15 }
+        );
+
+        observer.observe(video);
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupDemoVideos);
+  } else {
+    setupDemoVideos();
+  }
+  document.addEventListener('astro:page-load', setupDemoVideos);
+</script>

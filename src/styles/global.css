@@ -1,0 +1,149 @@
+﻿@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "tailwindcss";
+
+:root {
+  /* Font Family */
+  --font-inter: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+
+  /* Colors */
+  --color-text-main: #000000;
+  --color-text-sub: #262626;
+  --color-text-muted: #737373;
+  --color-accent-blue: #4361EE;
+  --color-image-bg: #F1F1F1;
+  --color-divider: #E5E5E5;
+  --color-page-bg: #FFFFFF;
+
+  /* Radii */
+  --radius-1: 8px;
+  --radius-2: 12px;
+
+  /* Spacing */
+  --section-gap: 112px;
+  --section-gap-mobile: 72px;
+
+  /* Typography metrics */
+  --font-size-h1: 56px;
+  --line-height-h1: 1.05;
+  --font-weight-h1: 600;
+
+  --font-size-h2: 40px;
+  --line-height-h2: 1.1;
+  --font-weight-h2: 600;
+
+  --font-size-h4: 20px;
+  --line-height-h4: 1.25;
+  --font-weight-h4: 500;
+
+  --font-size-body: 16px;
+  --line-height-body: 1.5;
+  --font-weight-body: 400;
+}
+
+@theme {
+  --font-sans: var(--font-inter);
+  --font-inter: var(--font-inter);
+
+  --color-text-main: #000000;
+  --color-text-sub: #262626;
+  --color-text-muted: #737373;
+  --color-accent-blue: #4361EE;
+  --color-image-bg: #F1F1F1;
+  --color-divider: #E5E5E5;
+  --color-page-bg: #FFFFFF;
+
+  --radius-radius-1: 8px;
+  --radius-radius-2: 12px;
+  --radius-1: 8px;
+  --radius-2: 12px;
+
+  --spacing-section-gap: 112px;
+  --spacing-section-gap-mobile: 72px;
+
+  --text-h1: 56px;
+  --text-h1--line-height: 1.05;
+  --text-h1--font-weight: 600;
+
+  --text-h2: 40px;
+  --text-h2--line-height: 1.1;
+  --text-h2--font-weight: 600;
+
+  --text-h4: 20px;
+  --text-h4--line-height: 1.25;
+  --text-h4--font-weight: 500;
+
+  --text-body: 16px;
+  --text-body--line-height: 1.5;
+  --text-body--font-weight: 400;
+}
+
+/* Explicit color helper classes */
+.text-main { color: var(--color-text-main); }
+.text-sub { color: var(--color-text-sub); }
+.text-muted { color: var(--color-text-muted); }
+.text-accent { color: var(--color-accent-blue); }
+.bg-image { background-color: var(--color-image-bg); }
+.bg-page { background-color: var(--color-page-bg); }
+.border-divider { border-color: var(--color-divider); }
+
+/* Typography Tokens */
+.text-h1 {
+  font-size: 56px;
+  line-height: 1.05;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.text-h2 {
+  font-size: 40px;
+  line-height: 1.1;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+}
+
+.text-h4 {
+  font-size: 20px;
+  line-height: 1.25;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+}
+
+.text-body {
+  font-size: 16px;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+@media (max-width: 640px) {
+  .text-h1 {
+    font-size: 38px;
+    line-height: 1.1;
+  }
+  .text-h2 {
+    font-size: 28px;
+    line-height: 1.15;
+  }
+  .text-h4 {
+    font-size: 18px;
+    line-height: 1.25;
+  }
+}
+
+/* Global Reset & Smooth Scroll */
+html {
+  font-family: var(--font-inter);
+  color: var(--color-text-main);
+  background-color: var(--color-page-bg);
+  scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Sticky nav scroll offset for sections */
+section[id],
+div[id] {
+  scroll-margin-top: 100px;
+}
