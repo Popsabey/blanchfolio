@@ -4,12 +4,16 @@ import '../styles/global.css';
 interface Props {
   title?: string;
   description?: string;
+  image?: string;
 }
 
 const {
   title = 'Abiodun Popoola — Designer & UI Engineer',
   description = 'I design and build clean, intuitive digital experiences for everyday use.',
+  image = '/images/projects/applatch-kids.png',
 } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'http://localhost:4321');
 ---
 
 <!doctype html>
@@ -18,15 +22,29 @@ const {
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
+
     <title>{title}</title>
+    <meta name="title" content={title} />
     <meta name="description" content={description} />
+    <meta name="author" content="Abiodun Popoola" />
     <meta name="theme-color" content="#ffffff" />
 
-    <!-- Open Graph / Meta -->
+    <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:image" content={image} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={image} />
+    <meta name="twitter:creator" content="@popsabey" />
 
     <!-- Google Fonts Inter preconnect & display=swap fallback -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />

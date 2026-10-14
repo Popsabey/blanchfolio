@@ -1,0 +1,66 @@
+﻿---
+import { siteConfig } from '../data/site';
+---
+
+<footer id="contact" class="w-full scroll-mt-28 pb-16 md:pb-24">
+  <!-- 1px Divider Line -->
+  <div class="w-full border-t border-[#E5E5E5]"></div>
+
+  <!-- Footer Content Row -->
+  <div class="pt-8 md:pt-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-8">
+    <!-- Left: Philosophy quote -->
+    <div class="max-w-[360px]">
+      <p class="text-[16px] leading-[1.5] text-[#737373] font-normal">
+        Aesthetics is a product functionality, you buy a shoe not only cause it fits, but it's beautiful too.
+      </p>
+    </div>
+
+    <!-- Right: Social & Contact Links -->
+    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8">
+      <!-- REACH ME ON X -->
+      <a
+        href={siteConfig.xUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        class="inline-flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4361EE] focus-visible:ring-offset-2 rounded"
+        aria-label="Reach me on X (opens in a new tab)"
+      >
+        <span class="text-[16px] text-[#737373] font-normal group-hover:text-[#000000] transition-colors">
+          REACH ME ON
+        </span>
+        <svg
+          class="w-[22px] h-[22px] text-[#000000] group-hover:text-[#4361EE] transition-colors"
+          viewBox="0 0 24 24"
+          fill="currentColor"
+          aria-hidden="true"
+        >
+          <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
+        </svg>
+      </a>
+
+      <!-- Reach me via email -->
+      <a
+        href={`mailto:${siteConfig.email}`}
+        class="inline-flex items-center gap-2.5 group focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4361EE] focus-visible:ring-offset-2 rounded"
+        aria-label={`Reach me via email at ${siteConfig.email}`}
+      >
+        <span class="text-[16px] text-[#737373] font-normal group-hover:text-[#000000] transition-colors">
+          Reach me via
+        </span>
+        <svg
+          class="w-[22px] h-[22px] text-[#000000] group-hover:text-[#4361EE] transition-colors"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <rect width="20" height="15" x="2" y="4.5" rx="2"/>
+          <path d="m22 7.5-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7.5"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>

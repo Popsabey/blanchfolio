@@ -5,6 +5,8 @@ interface Props {
   alt?: string;
   aspect?: string;
   radius?: 'radius-1' | 'radius-2' | string;
+  loading?: 'lazy' | 'eager';
+  fetchpriority?: 'high' | 'low' | 'auto';
   class?: string;
 }
 
@@ -14,6 +16,8 @@ const {
   alt = 'Project media showcase',
   aspect,
   radius = 'radius-2',
+  loading = 'lazy',
+  fetchpriority = 'auto',
   class: className = '',
 } = Astro.props;
 
@@ -44,6 +48,8 @@ const radiusClass =
     : radius === 'radius-2'
       ? 'rounded-[12px]'
       : radius;
+
+const webpPoster = poster.replace(/\.png$/, '.webp');
 ---
 
 <div
@@ -57,13 +63,17 @@ const radiusClass =
   {
     hasVideo ? (
       <>
-        <img
-          src={poster}
-          alt={alt}
-          loading="lazy"
-          decoding="async"
-          class="demo-media-poster w-full h-full object-cover hidden transition-transform duration-500 ease-out group-hover:scale-[1.015]"
-        />
+        <picture class="demo-media-poster w-full h-full object-cover hidden">
+          <source srcset={webpPoster} type="image/webp" />
+          <img
+            src={poster}
+            alt={alt}
+            loading={loading}
+            fetchpriority={fetchpriority}
+            decoding={loading === 'eager' ? 'sync' : 'async'}
+            class="w-full h-full object-cover"
+          />
+        </picture>
         <video
           autoplay
           muted
@@ -79,20 +89,24 @@ const radiusClass =
           <img
             src={poster}
             alt={alt}
-            loading="lazy"
+            loading={loading}
             decoding="async"
             class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.015]"
           />
         </video>
       </>
     ) : (
-      <img
-        src={poster}
-        alt={alt}
-        loading="lazy"
-        decoding="async"
-        class="w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.015]"
-      />
+      <picture class="w-full h-full block">
+        <source srcset={webpPoster} type="image/webp" />
+        <img
+          src={poster}
+          alt={alt}
+          loading={loading}
+          fetchpriority={fetchpriority}
+          decoding={loading === 'eager' ? 'sync' : 'async'}
+          class="w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.015]"
+        />
+      </picture>
     )
   }
 </div>
@@ -115,7 +129,7 @@ const radiusClass =
 
     containers.forEach((container) => {
       const video = container.querySelector<HTMLVideoElement>('video.demo-media-video');
-      const poster = container.querySelector<HTMLImageElement>('img.demo-media-poster');
+      const poster = container.querySelector<HTMLElement>('.demo-media-poster');
 
       if (!video) return;
 

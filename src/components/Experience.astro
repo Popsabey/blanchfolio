@@ -11,6 +11,7 @@ import { siteConfig, type ExperienceItem } from '../data/site';
     {
       siteConfig.experiences.map((item: ExperienceItem, index: number) => {
         const isLast = index === siteConfig.experiences.length - 1;
+        const webpLogo = item.logo.endsWith('.png') ? item.logo.replace(/\.png$/, '.webp') : null;
         return (
           <div
             class:list={[
@@ -20,16 +21,19 @@ import { siteConfig, type ExperienceItem } from '../data/site';
           >
             <!-- Left: 48px square logo + Company Name -->
             <div class="flex items-center gap-4">
-              <img
-                src={item.logo}
-                alt={`${item.company} logo`}
-                loading="lazy"
-                decoding="async"
-                class="w-[48px] h-[48px] rounded-[8px] object-cover shrink-0"
-              />
-              <h4 class="text-[18px] md:text-[20px] font-medium text-[#000000] leading-snug">
+              <picture>
+                {webpLogo && <source srcset={webpLogo} type="image/webp" />}
+                <img
+                  src={item.logo}
+                  alt={`${item.company} logo`}
+                  loading="lazy"
+                  decoding="async"
+                  class="w-[48px] h-[48px] rounded-[8px] object-cover shrink-0"
+                />
+              </picture>
+              <h3 class="text-[18px] md:text-[20px] font-medium text-[#000000] leading-snug">
                 {item.company}
-              </h4>
+              </h3>
             </div>
 
             <!-- Right: Role + Years -->

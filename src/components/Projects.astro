@@ -7,6 +7,8 @@ const gridProjects = siteConfig.projects.filter((p) => !p.featured);
 ---
 
 <section id="designs" class="w-full scroll-mt-28">
+  <h2 class="sr-only">Selected Works & Designs</h2>
+
   <!-- Featured Project Card: Full container width -->
   <article class="w-full">
     {
@@ -22,6 +24,8 @@ const gridProjects = siteConfig.projects.filter((p) => !p.featured);
             alt={featuredProject.title}
             aspect={featuredProject.aspect || '1.76/1'}
             radius={featuredProject.radius || 'radius-2'}
+            loading="eager"
+            fetchpriority="high"
           />
           <div class="mt-3.5 flex flex-col">
             <h3 class="text-[16px] font-medium text-[#000000] leading-snug group-hover:text-[#4361EE] transition-colors duration-150">
@@ -45,6 +49,8 @@ const gridProjects = siteConfig.projects.filter((p) => !p.featured);
             alt={featuredProject.title}
             aspect={featuredProject.aspect || '1.76/1'}
             radius={featuredProject.radius || 'radius-2'}
+            loading="eager"
+            fetchpriority="high"
           />
           <div class="mt-3.5 flex flex-col">
             <h3 class="text-[16px] font-medium text-[#000000] leading-snug group-hover:text-[#4361EE] transition-colors duration-150">
@@ -76,6 +82,7 @@ const gridProjects = siteConfig.projects.filter((p) => !p.featured);
                 alt={project.title}
                 aspect={project.aspect || '1.13/1'}
                 radius={project.radius || 'radius-1'}
+                loading="lazy"
               />
               <div class="mt-3.5 flex flex-col">
                 <h3 class="text-[16px] font-medium text-[#000000] leading-snug group-hover:text-[#4361EE] transition-colors duration-150">
@@ -106,6 +113,7 @@ const gridProjects = siteConfig.projects.filter((p) => !p.featured);
                 alt={project.title}
                 aspect={project.aspect || '1.13/1'}
                 radius={project.radius || 'radius-1'}
+                loading="lazy"
               />
               <div class="mt-3.5 flex flex-col">
                 <h3 class="text-[16px] font-medium text-[#000000] leading-snug group-hover:text-[#4361EE] transition-colors duration-150">
