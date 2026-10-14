@@ -1,0 +1,30 @@
+﻿---
+import { siteConfig } from '../data/site';
+---
+
+<section class="w-full pt-[112px] md:pt-[130px] pb-[72px] md:pb-[112px]">
+  <div class="flex flex-col md:flex-row md:items-end justify-between gap-8 md:gap-12">
+    <!-- Left Column: H1 with overlapping '&' badge -->
+    <div>
+      <h1 class="relative inline-block text-[40px] sm:text-[48px] md:text-[56px] font-semibold text-[#000000] leading-[1.05] tracking-[-0.02em]">
+        <span class="block">Designer</span>
+        <span class="block">UI Engineer</span>
+        <!-- Small solid blue circle containing white bold "&" overlapping the gap between lines -->
+        <span
+          class="hero-amp-badge absolute left-[102px] top-[37px] sm:left-[122px] sm:top-[44px] md:left-[144px] md:top-[51px] -translate-x-1/2 -translate-y-1/2 flex items-center justify-center w-[20px] h-[20px] sm:w-[23px] sm:h-[23px] md:w-[26px] md:h-[26px] rounded-full bg-[#4361EE] text-white text-[10px] sm:text-[11px] md:text-[13px] font-bold leading-none shadow-sm pointer-events-none select-none z-10"
+          aria-hidden="true"
+        >&amp;</span>
+      </h1>
+    </div>
+
+    <!-- Right Column: Paragraph aligned towards bottom of heading block -->
+    <div class="w-full md:w-[314px] flex-shrink-0">
+      <p class="text-[16px] leading-[1.5] text-[#262626] text-left md:[text-align:justify] md:[text-align-last:left]">
+        I'm <strong>{siteConfig.name}</strong>, I design and build clean, intuitive digital experiences for everyday use. <a
+          href={`mailto:${siteConfig.email}`}
+          class="text-[#4361EE] underline underline-offset-2 hover:opacity-80 transition-opacity"
+        >Reach out</a>
+      </p>
+    </div>
+  </div>
+</section>

@@ -1,9 +1,28 @@
 ﻿---
 import Layout from '../layouts/Layout.astro';
+import Nav from '../components/Nav.astro';
+import Hero from '../components/Hero.astro';
 ---
 
 <Layout>
-  <main class="py-[72px] md:py-[112px] min-h-[60vh]">
-    <!-- Ready for upcoming sections: #designs, #about, #contact -->
+  <!-- Floating Sticky Nav -->
+  <Nav />
+
+  <main>
+    <!-- Hero Section -->
+    <Hero />
+
+    <!-- Section Anchors for Navigation -->
+    <section id="designs" class="scroll-mt-28">
+      <!-- Designs section will be populated next -->
+    </section>
+
+    <section id="about" class="scroll-mt-28">
+      <!-- About section -->
+    </section>
+
+    <section id="contact" class="scroll-mt-28">
+      <!-- Contact section -->
+    </section>
   </main>
 </Layout>
