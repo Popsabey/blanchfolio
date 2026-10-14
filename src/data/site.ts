@@ -5,6 +5,9 @@
   video: string | { mp4?: string; webm?: string } | null;
   tag?: string;
   aspect?: string;
+  radius?: 'radius-1' | 'radius-2';
+  featured?: boolean;
+  href?: string;
 }
 
 export interface SiteConfig {
@@ -26,43 +29,53 @@ export const siteConfig: SiteConfig = {
   xUrl: "https://x.com/popsabey",
   projects: [
     {
-      title: "AppLatch Kids App - Education & Parental Control",
+      title: "ApplatchKids App - Education & Parental Control",
       subtitle: "Product design",
       poster: "/images/projects/applatch-kids.png",
       video: null,
-      aspect: "16/9"
+      aspect: "1.76/1",
+      radius: "radius-2",
+      featured: true,
     },
     {
       title: "Chada - Own & Trade Crypto Assets",
       subtitle: "UI/UX Design",
       poster: "/images/projects/chada.png",
       video: null,
-      aspect: "1/1"
+      aspect: "1.13/1",
+      radius: "radius-1",
+      featured: false,
     },
     {
-      title: "[Redacted] - Healthy Meal Planner",
+      title: "'Redacted' - Healthy Meal Planner",
       subtitle: "UI/UX Design",
       poster: "/images/projects/meal-planner.png",
       video: null,
-      aspect: "1/1"
+      aspect: "1.13/1",
+      radius: "radius-1",
+      featured: false,
     },
     {
-      title: "Agent Flow - SaaS Automation Tool",
+      title: "AgentFram - SaaS Automation Tool",
       subtitle: "Framer Template",
+      tag: "Free",
       poster: "/images/projects/agent-flow.png",
       video: null,
-      tag: "Free",
-      aspect: "1/1"
+      aspect: "1.13/1",
+      radius: "radius-1",
+      featured: false,
     },
     {
-      title: "Finwave - Payment Infrastructure",
+      title: "Finnoval - Payment Infrastructure",
       subtitle: "Framer Template",
+      tag: "$59",
       poster: "/images/projects/finwave.png",
       video: null,
-      tag: "$35",
-      aspect: "1/1"
-    }
-  ]
+      aspect: "1.13/1",
+      radius: "radius-1",
+      featured: false,
+    },
+  ],
 };
 
 export default siteConfig;

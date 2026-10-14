@@ -62,7 +62,7 @@ const radiusClass =
           alt={alt}
           loading="lazy"
           decoding="async"
-          class="demo-media-poster w-full h-full object-cover hidden"
+          class="demo-media-poster w-full h-full object-cover hidden transition-transform duration-500 ease-out group-hover:scale-[1.015]"
         />
         <video
           autoplay
@@ -71,7 +71,7 @@ const radiusClass =
           playsinline
           preload="metadata"
           poster={poster}
-          class="demo-media-video w-full h-full object-cover block"
+          class="demo-media-video w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.015]"
           aria-label={alt}
         >
           {webmSrc && <source src={webmSrc} type="video/webm" />}
@@ -81,7 +81,7 @@ const radiusClass =
             alt={alt}
             loading="lazy"
             decoding="async"
-            class="w-full h-full object-cover"
+            class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.015]"
           />
         </video>
       </>
@@ -91,7 +91,7 @@ const radiusClass =
         alt={alt}
         loading="lazy"
         decoding="async"
-        class="w-full h-full object-cover block"
+        class="w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.015]"
       />
     )
   }

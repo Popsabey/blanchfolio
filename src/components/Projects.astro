@@ -1,0 +1,131 @@
+﻿---
+import DemoMedia from './DemoMedia.astro';
+import { siteConfig, type Project } from '../data/site';
+
+const featuredProject = siteConfig.projects.find((p) => p.featured) || siteConfig.projects[0];
+const gridProjects = siteConfig.projects.filter((p) => !p.featured);
+---
+
+<section id="designs" class="w-full scroll-mt-28">
+  <!-- Featured Project Card: Full container width -->
+  <article class="w-full">
+    {
+      featuredProject.href ? (
+        <a
+          href={featuredProject.href}
+          class="group block w-full rounded-[12px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4361EE] focus-visible:ring-offset-4"
+          aria-label={`View project: ${featuredProject.title}`}
+        >
+          <DemoMedia
+            poster={featuredProject.poster}
+            video={featuredProject.video}
+            alt={featuredProject.title}
+            aspect={featuredProject.aspect || '1.76/1'}
+            radius={featuredProject.radius || 'radius-2'}
+          />
+          <div class="mt-3.5 flex flex-col">
+            <h3 class="text-[16px] font-medium text-[#000000] leading-snug group-hover:text-[#4361EE] transition-colors duration-150">
+              {featuredProject.title}
+            </h3>
+            <p class="mt-0.5 text-[16px] font-normal text-[#737373] leading-normal">
+              {featuredProject.subtitle}
+            </p>
+          </div>
+        </a>
+      ) : (
+        <div
+          tabindex="0"
+          role="article"
+          class="group block w-full rounded-[12px] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4361EE] focus-visible:ring-offset-4"
+          aria-label={`Project: ${featuredProject.title}`}
+        >
+          <DemoMedia
+            poster={featuredProject.poster}
+            video={featuredProject.video}
+            alt={featuredProject.title}
+            aspect={featuredProject.aspect || '1.76/1'}
+            radius={featuredProject.radius || 'radius-2'}
+          />
+          <div class="mt-3.5 flex flex-col">
+            <h3 class="text-[16px] font-medium text-[#000000] leading-snug group-hover:text-[#4361EE] transition-colors duration-150">
+              {featuredProject.title}
+            </h3>
+            <p class="mt-0.5 text-[16px] font-normal text-[#737373] leading-normal">
+              {featuredProject.subtitle}
+            </p>
+          </div>
+        </div>
+      )
+    }
+  </article>
+
+  <!-- 2-Column Grid: 4 cards with 24px column gap and 40px row gap -->
+  <div class="mt-10 md:mt-12 grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-10">
+    {
+      gridProjects.map((project: Project) => (
+        <article class="w-full">
+          {project.href ? (
+            <a
+              href={project.href}
+              class="group block w-full rounded-[8px] focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4361EE] focus-visible:ring-offset-4"
+              aria-label={`View project: ${project.title}`}
+            >
+              <DemoMedia
+                poster={project.poster}
+                video={project.video}
+                alt={project.title}
+                aspect={project.aspect || '1.13/1'}
+                radius={project.radius || 'radius-1'}
+              />
+              <div class="mt-3.5 flex flex-col">
+                <h3 class="text-[16px] font-medium text-[#000000] leading-snug group-hover:text-[#4361EE] transition-colors duration-150">
+                  {project.title}
+                </h3>
+                <div class="mt-0.5 flex items-center flex-wrap gap-2">
+                  <span class="text-[16px] font-normal text-[#737373] leading-normal">
+                    {project.subtitle}
+                  </span>
+                  {project.tag && (
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-[4px] bg-[#F1F1F1] text-[13px] md:text-[14px] text-[#262626] font-normal leading-tight select-none">
+                      {project.tag}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </a>
+          ) : (
+            <div
+              tabindex="0"
+              role="article"
+              class="group block w-full rounded-[8px] cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-[#4361EE] focus-visible:ring-offset-4"
+              aria-label={`Project: ${project.title}`}
+            >
+              <DemoMedia
+                poster={project.poster}
+                video={project.video}
+                alt={project.title}
+                aspect={project.aspect || '1.13/1'}
+                radius={project.radius || 'radius-1'}
+              />
+              <div class="mt-3.5 flex flex-col">
+                <h3 class="text-[16px] font-medium text-[#000000] leading-snug group-hover:text-[#4361EE] transition-colors duration-150">
+                  {project.title}
+                </h3>
+                <div class="mt-0.5 flex items-center flex-wrap gap-2">
+                  <span class="text-[16px] font-normal text-[#737373] leading-normal">
+                    {project.subtitle}
+                  </span>
+                  {project.tag && (
+                    <span class="inline-flex items-center px-2 py-0.5 rounded-[4px] bg-[#F1F1F1] text-[13px] md:text-[14px] text-[#262626] font-normal leading-tight select-none">
+                      {project.tag}
+                    </span>
+                  )}
+                </div>
+              </div>
+            </div>
+          )}
+        </article>
+      ))
+    }
+  </div>
+</section>
