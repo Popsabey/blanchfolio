@@ -21,7 +21,7 @@ export const applatchkidsCaseStudy: CaseStudy = {
       type: 'media',
       media: 'applatchkids-overview-phone',
       alt: 'ApplatchKids child app overview on iPhone',
-      displayWidth: 184,
+      displayWidth: 368, // 2x from 184
     },
     {
       type: 'text',
@@ -77,13 +77,13 @@ export const applatchkidsCaseStudy: CaseStudy = {
       type: 'media',
       media: 'applatchkids-parents-phone',
       alt: 'Parent app dashboard on iPhone',
-      displayWidth: 184,
+      displayWidth: 368, // 2x from 184
     },
     {
       type: 'split',
       side: 'media-left',
       media: 'applatchkids-control',
-      displayWidth: 120,
+      displayWidth: 240, // 2x from 120
       alt: 'Flexible screen-time controls interface',
       heading: 'Control that adapts to real life',
       body: 'I designed screen-time controls around flexibility rather than a single rigid limit. Parents can manage when and how children access apps, make temporary changes when circumstances change, and retain control without having to reconfigure the whole system.',
@@ -92,7 +92,7 @@ export const applatchkidsCaseStudy: CaseStudy = {
       type: 'split',
       side: 'media-right',
       media: 'applatchkids-reporting',
-      displayWidth: 124,
+      displayWidth: 248, // 2x from 124
       alt: 'Parent reporting and live insights window',
       heading: 'Reporting, the core feedback',
       body: 'I turned the parent app into a live window into the child\'s device. Report helps parents understand their child better, from screen time to quiz details. Activity is translated into progress, strengths and areas that may need attention, giving parents a clearer picture of learning over time.',
@@ -101,7 +101,7 @@ export const applatchkidsCaseStudy: CaseStudy = {
       type: 'split',
       side: 'media-left',
       media: 'applatchkids-remote',
-      displayWidth: 122,
+      displayWidth: 244, // 2x from 122
       alt: 'Real-time synchronization between parent and child devices',
       heading: 'Parent phone as a remote control',
       body: 'Through real-time synchronisation, changes made in the parent app are reflected on the child\'s device, while device state flows back to the parent. This turns the parent experience into a lightweight remote control of the child\'s screen-time environment.',
