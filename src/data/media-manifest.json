@@ -136,5 +136,45 @@
     "width": 1870,
     "height": 1112,
     "poster": "/media/chada-hero.webp"
+  },
+  "redacted-dietitian": {
+    "type": "video",
+    "width": 1008,
+    "height": 748,
+    "poster": "/media/redacted-dietitian.webp",
+    "mp4": "/media/redacted-dietitian.mp4",
+    "webm": "/media/redacted-dietitian.webm"
+  },
+  "redacted-essie": {
+    "type": "image",
+    "width": 1306,
+    "height": 776,
+    "poster": "/media/redacted-essie.webp"
+  },
+  "redacted-hero": {
+    "type": "image",
+    "width": 1870,
+    "height": 1112,
+    "poster": "/media/redacted-hero.webp"
+  },
+  "redacted-planner": {
+    "type": "image",
+    "width": 1306,
+    "height": 776,
+    "poster": "/media/redacted-planner.webp"
+  },
+  "redacted-preferences": {
+    "type": "video",
+    "width": 996,
+    "height": 750,
+    "poster": "/media/redacted-preferences.webp",
+    "mp4": "/media/redacted-preferences.mp4",
+    "webm": "/media/redacted-preferences.webm"
+  },
+  "redacted-profile": {
+    "type": "image",
+    "width": 1306,
+    "height": 776,
+    "poster": "/media/redacted-profile.webp"
   }
 }

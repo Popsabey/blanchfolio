@@ -54,6 +54,7 @@ export const siteConfig: SiteConfig = {
       aspect: "1.13/1",
       radius: "radius-1",
       featured: false,
+      href: "/work/chada",
     },
     {
       title: "'Redacted' - Healthy Meal Planner",

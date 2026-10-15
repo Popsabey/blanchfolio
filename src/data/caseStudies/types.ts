@@ -22,13 +22,23 @@ export interface SplitBlock {
   body: string;
 }
 
-export type CaseStudyBlock = TextBlock | MediaBlock | SplitBlock;
+export interface GridItem {
+  media: string;
+  alt: string;
+}
+
+export interface GridBlock {
+  type: 'grid';
+  items: GridItem[];
+}
+
+export type CaseStudyBlock = TextBlock | MediaBlock | SplitBlock | GridBlock;
 
 export interface CaseStudy {
   slug: string;
   title: string;
   category: string;
-  websiteUrl: string;
+  websiteUrl?: string;
   hero: string;
   heroAlt: string;
   blocks: CaseStudyBlock[];

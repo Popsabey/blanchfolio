@@ -1,8 +1,10 @@
 import { applatchkidsCaseStudy } from './applatchkids';
+import { chadaCaseStudy } from './chada';
 import type { CaseStudy } from './types';
 
 export const allCaseStudies: CaseStudy[] = [
   applatchkidsCaseStudy,
+  chadaCaseStudy,
 ];
 
 export function getCaseStudy(slug: string): CaseStudy | undefined {
@@ -10,4 +12,4 @@ export function getCaseStudy(slug: string): CaseStudy | undefined {
 }
 
 export * from './types';
-export { applatchkidsCaseStudy };
+export { applatchkidsCaseStudy, chadaCaseStudy };
