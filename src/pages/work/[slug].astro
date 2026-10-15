@@ -1,4 +1,4 @@
----
+﻿---
 import Layout from '../../layouts/Layout.astro';
 import DemoMedia from '../../components/DemoMedia.astro';
 import Footer from '../../components/Footer.astro';
@@ -35,7 +35,9 @@ const metaDescription =
     ? 'Applatch is a connected parent-and-child experience that helps families build healthier screen-time habits through educational quizzes and smart boundaries.'
     : study.slug === 'chada'
       ? 'Chada disrupts traditional trading by merging intuitive savings mechanics with high-yield decentralized finance, real-time portfolio health, and emotional AI guidance.'
-      : `${study.title} — Case study by Abiodun Popoola.`;
+      : study.slug === 'redacted'
+        ? '‘Redacted’ is an intelligent food planner and calorie tracking platform using artificial intelligence and data tracking to deliver personalized meal recommendations.'
+        : `${study.title} — Case study by Abiodun Popoola.`;
 ---
 
 <Layout
