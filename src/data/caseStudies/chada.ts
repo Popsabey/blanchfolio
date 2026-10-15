@@ -19,7 +19,7 @@ export const chadaCaseStudy: CaseStudy = {
       type: 'media',
       media: 'chada-onboarding',
       alt: 'Chada onboarding and authentication screens',
-      displayWidth: 166,
+      displayWidth: 440,
     },
     {
       type: 'text',
@@ -47,7 +47,7 @@ export const chadaCaseStudy: CaseStudy = {
       type: 'media',
       media: 'chada-liquidity',
       alt: 'Borderless liquidity and cross-border transfers',
-      displayWidth: 190,
+      displayWidth: 440,
     },
     {
       type: 'text',
@@ -61,7 +61,7 @@ export const chadaCaseStudy: CaseStudy = {
       type: 'media',
       media: 'chada-jenna',
       alt: 'Jenna AI trading assistant and market advisor',
-      displayWidth: 190,
+      displayWidth: 440,
     },
     {
       type: 'grid',
