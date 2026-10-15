@@ -8,12 +8,14 @@ interface Props {
 }
 
 const {
-  title = 'Abiodun Popoola — Designer & UI Engineer',
+  title = 'Abiodun Popoola - Designer & UI Engineer',
   description = 'I design and build clean, intuitive digital experiences for everyday use.',
   image = '/images/projects/applatch-kids.png',
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'http://localhost:4321');
+const siteBase = Astro.site || new URL('https://popsabey.com');
+const canonicalURL = new URL(Astro.url.pathname, siteBase);
+const imageURL = new URL(image, siteBase);
 ---
 
 <!doctype html>
@@ -22,7 +24,7 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'http://localhost
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="canonical" href={canonicalURL} />
+    <link rel="canonical" href={canonicalURL.href} />
     <meta name="generator" content={Astro.generator} />
 
     <title>{title}</title>
@@ -33,17 +35,17 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'http://localhost
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:url" content={canonicalURL.href} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content={image} />
+    <meta property="og:image" content={imageURL.href} />
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image" />
-    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:url" content={canonicalURL.href} />
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
-    <meta property="twitter:image" content={image} />
+    <meta property="twitter:image" content={imageURL.href} />
     <meta name="twitter:creator" content="@popsabey" />
 
     <!-- Google Fonts Inter preconnect & display=swap fallback -->

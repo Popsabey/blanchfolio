@@ -1,6 +1,6 @@
-import fs from 'fs';
-import path from 'path';
-import { execFileSync } from 'child_process';
+﻿import fs from 'node:fs';
+import path from 'node:path';
+import { execFileSync } from 'node:child_process';
 import ffmpeg from 'ffmpeg-static';
 import sharp from 'sharp';
 
@@ -46,10 +46,6 @@ function formatSize(bytes) {
 }
 
 async function run() {
-  if (!fs.existsSync(SRC_DIR)) {
-    fs.mkdirSync(SRC_DIR, { recursive: true });
-    fs.writeFileSync(path.join(SRC_DIR, '.gitkeep'), '');
-  }
   if (!fs.existsSync(OUT_DIR)) {
     fs.mkdirSync(OUT_DIR, { recursive: true });
   }
@@ -58,21 +54,37 @@ async function run() {
   }
 
   let manifest = {};
+  let existingManifestHadEntries = false;
   if (fs.existsSync(MANIFEST_PATH)) {
     try {
       manifest = JSON.parse(fs.readFileSync(MANIFEST_PATH, 'utf8'));
+      if (Object.keys(manifest).length > 0) {
+        existingManifestHadEntries = true;
+      }
     } catch {
       manifest = {};
     }
   }
 
+  // If media-source does not exist, do not touch outputs or manifest
+  if (!fs.existsSync(SRC_DIR)) {
+    console.log('[convert-media] media-source/ directory missing. Preserving existing public/media outputs and manifest.');
+    return;
+  }
+
   // 1. Scan source files
   const rawFiles = fs.readdirSync(SRC_DIR);
-  const grouped = new Map();
+  const mediaFiles = rawFiles.filter(file => ACCEPTED_EXTS.has(path.extname(file).toLowerCase()));
 
-  for (const file of rawFiles) {
+  // If no media sources exist (e.g. fresh clone on CI with only .gitkeep), preserve existing outputs and manifest
+  if (mediaFiles.length === 0) {
+    console.log('[convert-media] No media sources found in media-source/. Preserving existing public/media outputs and manifest.');
+    return;
+  }
+
+  const grouped = new Map();
+  for (const file of mediaFiles) {
     const ext = path.extname(file).toLowerCase();
-    if (!ACCEPTED_EXTS.has(ext)) continue;
     const base = path.basename(file, ext);
     if (!grouped.has(base)) grouped.set(base, []);
     grouped.get(base).push({ file, ext });
@@ -89,14 +101,14 @@ async function run() {
     }
   }
 
-  // 2. Remove stale entries from manifest
+  // 2. Remove stale entries from manifest only when media-source has active files
   for (const key of Object.keys(manifest)) {
     if (!activeSources.has(key)) {
       delete manifest[key];
     }
   }
 
-  // 3. Remove stale output files in public/media
+  // 3. Remove stale output files in public/media only when media-source has active files
   const activeOutputFiles = new Set();
   for (const [base, src] of activeSources.entries()) {
     if (src.isVideo) {
@@ -249,8 +261,13 @@ async function run() {
     }
   }
 
-  // 5. Write manifest file
-  fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + '\n');
+  // 5. Write manifest file (never write an empty manifest over a non-empty one)
+  const newManifestKeys = Object.keys(manifest);
+  if (newManifestKeys.length === 0 && existingManifestHadEntries) {
+    console.warn('[convert-media] Warning: Refusing to overwrite non-empty manifest with empty manifest!');
+  } else {
+    fs.writeFileSync(MANIFEST_PATH, JSON.stringify(manifest, null, 2) + '\n');
+  }
 
   // 6. Summary table
   console.log('\n=== MEDIA CONVERSION SUMMARY ===');

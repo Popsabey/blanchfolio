@@ -38,12 +38,14 @@ const metaDescription =
       : study.slug === 'redacted'
         ? '‘Redacted’ is an intelligent food planner and calorie tracking platform using artificial intelligence and data tracking to deliver personalized meal recommendations.'
         : `${study.title} — Case study by Abiodun Popoola.`;
+
+const heroPoster = manifest[study.hero]?.poster || `/media/${study.hero}.webp`;
 ---
 
 <Layout
   title={study.title}
   description={metaDescription}
-  image={`/media/${study.hero}.webp`}
+  image={heroPoster}
 >
   <main class="w-full pt-[120px] md:pt-[150px]">
     <!-- Top Back Button: Aligned to container left edge -->

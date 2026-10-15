@@ -1,5 +1,6 @@
----
+﻿---
 import rawManifest from '../data/media-manifest.json';
+import { allCaseStudies } from '../data/caseStudies';
 
 interface ManifestItem {
   type: 'video' | 'image';
@@ -54,8 +55,39 @@ if (name) {
   item = manifest[name] ?? null;
   if (!item) {
     isMissing = true;
-    if (import.meta.env.DEV) {
-      console.warn(`[DemoMedia] Warning: Media name "${name}" not found in media-manifest.json.`);
+
+    // Discover all missing media across case studies for a complete, actionable error
+    const missingItems: string[] = [];
+    for (const study of allCaseStudies) {
+      if (study.hero && !manifest[study.hero]) {
+        missingItems.push(`${study.slug} (hero: "${study.hero}")`);
+      }
+      for (const block of study.blocks) {
+        if (block.type === 'media' && !manifest[block.media]) {
+          missingItems.push(`${study.slug} (media: "${block.media}")`);
+        } else if (block.type === 'split' && !manifest[block.media]) {
+          missingItems.push(`${study.slug} (split: "${block.media}")`);
+        } else if (block.type === 'grid') {
+          for (const gridItem of block.items) {
+            if (!manifest[gridItem.media]) {
+              missingItems.push(`${study.slug} (grid: "${gridItem.media}")`);
+            }
+          }
+        }
+      }
+    }
+
+    const uniqueMissing = Array.from(new Set(missingItems.length > 0 ? missingItems : [`"${name}"`]));
+    const errorMessage = `[DemoMedia] Missing media in manifest (${uniqueMissing.length} missing):\n - ${uniqueMissing.join('\n - ')}`;
+
+    if (import.meta.env.PROD) {
+      if (process.env.ALLOW_MISSING_MEDIA === '1') {
+        console.warn(`[DemoMedia Warning] (ALLOW_MISSING_MEDIA=1 active): ${errorMessage}`);
+      } else {
+        throw new Error(`${errorMessage}\nSet ALLOW_MISSING_MEDIA=1 in environment variables if you want to bypass this check.`);
+      }
+    } else {
+      console.warn(`[DemoMedia DEV Warning] ${errorMessage}`);
     }
   }
 }
@@ -133,11 +165,13 @@ const styleString = Object.entries(containerStyles)
         className,
       ]}
       style={styleString || 'aspect-ratio: 16/9;'}
-      aria-label={`Missing media: ${name}`}
+      aria-label={import.meta.env.DEV ? `Missing media: ${name}` : undefined}
     >
-      <span class="px-4 py-2 text-center select-none font-mono opacity-80">
-        [Media: {name}]
-      </span>
+      {import.meta.env.DEV && (
+        <span class="px-4 py-2 text-center select-none font-mono opacity-80">
+          [Media: {name}]
+        </span>
+      )}
     </div>
   ) : variant === 'bare' ? (
     <div

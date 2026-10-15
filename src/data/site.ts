@@ -1,4 +1,4 @@
-export interface Project {
+﻿export interface Project {
   title: string;
   subtitle: string;
   poster: string;
@@ -32,7 +32,7 @@ export const siteConfig: SiteConfig = {
   name: "Abiodun Popoola",
   title: "Designer & UI Engineer",
   role: "Lead Product Designer & UI Engineer",
-  bio: "I?m Abiodun Popoola, I design and build clean, intuitive digital experiences for everyday use.",
+  bio: "I design and build clean, intuitive digital experiences for everyday use.",
   email: "popsabey.ux@gmail.com",
   xUrl: "https://x.com/TODO", // TODO: Add real X URL
   projects: [
@@ -75,6 +75,7 @@ export const siteConfig: SiteConfig = {
       aspect: "1.13/1",
       radius: "radius-1",
       featured: false,
+      href: "https://agentfram.framer.website/",
     },
     {
       title: "Finnoval - Payment Infrastructure",
@@ -85,6 +86,7 @@ export const siteConfig: SiteConfig = {
       aspect: "1.13/1",
       radius: "radius-1",
       featured: false,
+      href: "https://finnoval.framer.website/",
     },
   ],
   experiences: [
