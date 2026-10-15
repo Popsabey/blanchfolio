@@ -17,6 +17,12 @@ export interface ExperienceItem {
   logo: string;
 }
 
+export interface StripItem {
+  media: string;
+  alt: string;
+  aspect?: string;
+}
+
 export interface SiteConfig {
   name: string;
   title: string;
@@ -24,6 +30,7 @@ export interface SiteConfig {
   bio: string;
   email: string;
   xUrl: string;
+  strip: StripItem[];
   projects: Project[];
   experiences: ExperienceItem[];
 }
@@ -33,8 +40,38 @@ export const siteConfig: SiteConfig = {
   title: "Designer & UI Engineer",
   role: "Lead Product Designer & UI Engineer",
   bio: "I design and build clean, intuitive digital experiences for everyday use.",
-  email: "popsabey.ux@gmail.com",
-  xUrl: "https://x.com/TODO", // TODO: Add real X URL
+  email: "hello@popsabey.com",
+  xUrl: "https://x.com/Popsabey",
+  strip: [
+    {
+      media: "strip-1",
+      alt: "Website for a tailoring business",
+    },
+    {
+      media: "strip-2",
+      alt: "Trading terminal order confirmation",
+    },
+    {
+      media: "strip-3",
+      alt: "Tessa logo",
+    },
+    {
+      media: "strip-4",
+      alt: "Proattire logo",
+    },
+    {
+      media: "strip-5",
+      alt: "Avatar purchase prompt in a kids game",
+    },
+    {
+      media: "strip-6",
+      alt: "Abstract blue logo mark",
+    },
+    {
+      media: "strip-7",
+      alt: "Proattire hexagon photo mosaic",
+    },
+  ],
   projects: [
     {
       title: "ApplatchKids App - Education & Parental Control",

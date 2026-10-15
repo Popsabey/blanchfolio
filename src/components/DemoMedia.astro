@@ -23,6 +23,7 @@ interface Props {
   poster?: string;
   video?: string | { mp4?: string; webm?: string } | null;
   aspect?: string;
+  preload?: 'auto' | 'metadata' | 'none';
   loading?: 'lazy' | 'eager';
   fetchpriority?: 'high' | 'low' | 'auto';
   class?: string;
@@ -38,6 +39,7 @@ const {
   poster: explicitPoster,
   video: explicitVideo = null,
   aspect: explicitAspect,
+  preload: explicitPreload,
   loading: explicitLoading,
   fetchpriority: explicitFetchPriority,
   class: className = '',
@@ -97,7 +99,7 @@ let isVideo = false;
 let effectivePoster = explicitPoster ?? '';
 let webmSrc: string | null = null;
 let mp4Src: string | null = null;
-let intrinsicAspect = explicitAspect;
+let intrinsicAspect = explicitAspect === 'none' ? undefined : explicitAspect;
 let mediaWidth: number | undefined;
 let mediaHeight: number | undefined;
 
@@ -108,7 +110,7 @@ if (item) {
   mp4Src = item.mp4 ?? null;
   mediaWidth = item.width;
   mediaHeight = item.height;
-  if (item.width && item.height) {
+  if (explicitAspect !== 'none' && !explicitAspect && item.width && item.height) {
     intrinsicAspect = `${item.width} / ${item.height}`;
   }
 } else if (!isMissing && explicitPoster) {
@@ -142,6 +144,9 @@ const radiusClass =
     : '';
 
 const webpPoster = effectivePoster ? effectivePoster.replace(/\.png$/, '.webp') : '';
+
+// Video preload: auto for videos near top/priority, metadata for others
+const videoPreload = explicitPreload ?? (priority ? 'auto' : 'metadata');
 
 // Container styles
 const containerStyles: Record<string, string> = {};
@@ -201,8 +206,9 @@ const styleString = Object.entries(containerStyles)
             muted
             loop
             playsinline
-            preload="metadata"
+            preload={videoPreload}
             poster={effectivePoster}
+            disablepictureinpicture
             class="demo-media-video w-full h-auto block"
             aria-label={alt}
           >
@@ -264,8 +270,9 @@ const styleString = Object.entries(containerStyles)
             muted
             loop
             playsinline
-            preload="metadata"
+            preload={videoPreload}
             poster={effectivePoster}
+            disablepictureinpicture
             class="demo-media-video w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.015]"
             aria-label={alt}
           >
@@ -317,12 +324,56 @@ const styleString = Object.entries(containerStyles)
     const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const containers = document.querySelectorAll<HTMLElement>('.demo-media-container');
 
+    // Global interaction fallback set for videos that need user gesture due to policy
+    let hasUserInteracted = false;
+    const pendingPlayVideos = new Set<HTMLVideoElement>();
+
+    function onUserInteraction() {
+      if (hasUserInteracted) return;
+      hasUserInteracted = true;
+      pendingPlayVideos.forEach((video) => {
+        if (!video.paused) {
+          pendingPlayVideos.delete(video);
+          return;
+        }
+        video.muted = true;
+        video.play().then(() => {
+          pendingPlayVideos.delete(video);
+        }).catch(() => {});
+      });
+      ['pointerdown', 'touchstart', 'scroll', 'keydown'].forEach((evt) => {
+        window.removeEventListener(evt, onUserInteraction, { capture: true });
+      });
+    }
+
+    ['pointerdown', 'touchstart', 'scroll', 'keydown'].forEach((evt) => {
+      window.addEventListener(evt, onUserInteraction, { capture: true, once: true });
+    });
+
     containers.forEach((container) => {
       const video = container.querySelector<HTMLVideoElement>('video.demo-media-video');
       const poster = container.querySelector<HTMLElement>('.demo-media-poster');
 
       if (!video) return;
 
+      // Ensure required DOM properties for automatic playback
+      video.muted = true;
+      video.defaultMuted = true;
+      video.playsInline = true;
+      video.loop = true;
+      video.controls = false;
+      video.disablePictureInPicture = true;
+      if ('disableRemotePlayback' in video) {
+        (video as any).disableRemotePlayback = true;
+      }
+
+      // Check if video is within one viewport height of the top
+      const rect = video.getBoundingClientRect();
+      if (rect.top < window.innerHeight) {
+        video.preload = 'auto';
+      }
+
+      // Keep prefers-reduced-motion: reduce behavior intact
       if (prefersReducedMotion) {
         video.pause();
         video.removeAttribute('autoplay');
@@ -333,22 +384,62 @@ const styleString = Object.entries(containerStyles)
         return;
       }
 
+      let isNearOrInView = false;
+
+      function attemptPlay() {
+        if (prefersReducedMotion || !isNearOrInView) return;
+        video.muted = true;
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+          playPromise.catch((err) => {
+            if (import.meta.env.DEV) {
+              console.warn('[DemoMedia] play() rejected:', video.src || video.currentSrc, err);
+            }
+            pendingPlayVideos.add(video);
+          });
+        }
+      }
+
+      // IntersectionObserver with rootMargin "300px"
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(
           (entries) => {
             entries.forEach((entry) => {
+              isNearOrInView = entry.isIntersecting;
               if (entry.isIntersecting) {
-                video.play().catch(() => {});
+                attemptPlay();
               } else {
                 video.pause();
               }
             });
           },
-          { threshold: 0.15 }
+          { rootMargin: '300px' }
         );
-
         observer.observe(video);
+      } else {
+        isNearOrInView = true;
+        attemptPlay();
       }
+
+      // Call play() again on loadeddata, canplay, visibilitychange and pageshow
+      video.addEventListener('loadeddata', attemptPlay);
+      video.addEventListener('canplay', attemptPlay);
+
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          if (isNearOrInView) {
+            attemptPlay();
+          }
+        } else {
+          video.pause();
+        }
+      });
+
+      window.addEventListener('pageshow', (e) => {
+        if (e.persisted && isNearOrInView) {
+          attemptPlay();
+        }
+      });
     });
   }
 

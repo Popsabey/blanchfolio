@@ -26,6 +26,15 @@ const expectedNames = new Set([
 ]);
 
 // Dynamically discover expected media names from any case study files
+const SITE_PATH = path.resolve('src/data/site.ts');
+if (fs.existsSync(SITE_PATH)) {
+  const content = fs.readFileSync(SITE_PATH, 'utf8');
+  const mediaMatches = content.matchAll(/(?:media|hero):\s*['"]([^'"]+)['"]/g);
+  for (const m of mediaMatches) {
+    if (m[1]) expectedNames.add(m[1]);
+  }
+}
+
 if (fs.existsSync(CASE_STUDIES_DIR)) {
   const files = fs.readdirSync(CASE_STUDIES_DIR);
   for (const f of files) {

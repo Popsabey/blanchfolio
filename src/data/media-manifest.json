@@ -176,5 +176,47 @@
     "width": 1306,
     "height": 776,
     "poster": "/media/redacted-profile.webp"
+  },
+  "strip-1": {
+    "type": "image",
+    "width": 604,
+    "height": 884,
+    "poster": "/media/strip-1.webp"
+  },
+  "strip-2": {
+    "type": "image",
+    "width": 596,
+    "height": 578,
+    "poster": "/media/strip-2.webp"
+  },
+  "strip-3": {
+    "type": "image",
+    "width": 604,
+    "height": 578,
+    "poster": "/media/strip-3.webp"
+  },
+  "strip-4": {
+    "type": "image",
+    "width": 606,
+    "height": 884,
+    "poster": "/media/strip-4.webp"
+  },
+  "strip-5": {
+    "type": "image",
+    "width": 798,
+    "height": 884,
+    "poster": "/media/strip-5.webp"
+  },
+  "strip-6": {
+    "type": "image",
+    "width": 798,
+    "height": 578,
+    "poster": "/media/strip-6.webp"
+  },
+  "strip-7": {
+    "type": "image",
+    "width": 798,
+    "height": 1490,
+    "poster": "/media/strip-7.webp"
   }
 }

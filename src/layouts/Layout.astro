@@ -46,7 +46,7 @@ const imageURL = new URL(image, siteBase);
     <meta property="twitter:title" content={title} />
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={imageURL.href} />
-    <meta name="twitter:creator" content="@popsabey" />
+    <meta name="twitter:creator" content="@Popsabey" />
 
     <!-- Google Fonts Inter preconnect & display=swap fallback -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -56,7 +56,7 @@ const imageURL = new URL(image, siteBase);
       rel="stylesheet"
     />
   </head>
-  <body class="bg-white text-[#000000] font-sans antialiased min-h-screen selection:bg-[#4361EE] selection:text-white">
+  <body class="bg-white text-[#000000] font-sans antialiased min-h-screen selection:bg-[#4361EE] selection:text-white overflow-x-hidden">
     <!-- Centered content container: 988px max-width on 1440px desktop with horizontal padding on smaller screens -->
     <div class="w-full max-w-[988px] mx-auto px-5 sm:px-6 md:px-8">
       <slot />

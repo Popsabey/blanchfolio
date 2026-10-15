@@ -1,0 +1,111 @@
+﻿---
+import DemoMedia from './DemoMedia.astro';
+import { siteConfig } from '../data/site';
+
+const strip = siteConfig.strip;
+---
+
+<section
+  class="showreel-strip w-screen relative left-1/2 -translate-x-1/2 mb-[72px] md:mb-[112px]"
+  aria-label="Design showcase showreel"
+>
+  {/* Desktop 4-column layout (> 1024px) */}
+  <div class="hidden lg:grid grid-cols-[3fr_3fr_4fr_4fr] gap-x-[10px] w-full aspect-[1440/748]">
+    {/* Col 1: 3:2 row ratio */}
+    <div class="grid grid-rows-[3fr_2fr] gap-y-[12px] h-full min-h-0">
+      <DemoMedia
+        name="strip-1"
+        alt={strip[0].alt}
+        variant="card"
+        radius="radius-1"
+        aspect="none"
+        loading="lazy"
+        class="w-full h-full"
+      />
+      <DemoMedia
+        name="strip-2"
+        alt={strip[1].alt}
+        variant="card"
+        radius="radius-1"
+        aspect="none"
+        loading="lazy"
+        class="w-full h-full"
+      />
+    </div>
+
+    {/* Col 2: 2:3 row ratio */}
+    <div class="grid grid-rows-[2fr_3fr] gap-y-[12px] h-full min-h-0">
+      <DemoMedia
+        name="strip-3"
+        alt={strip[2].alt}
+        variant="card"
+        radius="radius-1"
+        aspect="none"
+        loading="lazy"
+        class="w-full h-full"
+      />
+      <DemoMedia
+        name="strip-4"
+        alt={strip[3].alt}
+        variant="card"
+        radius="radius-1"
+        aspect="none"
+        loading="lazy"
+        class="w-full h-full"
+      />
+    </div>
+
+    {/* Col 3: 3:2 row ratio */}
+    <div class="grid grid-rows-[3fr_2fr] gap-y-[12px] h-full min-h-0">
+      <DemoMedia
+        name="strip-5"
+        alt={strip[4].alt}
+        variant="card"
+        radius="radius-1"
+        aspect="none"
+        loading="lazy"
+        class="w-full h-full"
+      />
+      <DemoMedia
+        name="strip-6"
+        alt={strip[5].alt}
+        variant="card"
+        radius="radius-1"
+        aspect="none"
+        loading="lazy"
+        class="w-full h-full"
+      />
+    </div>
+
+    {/* Col 4: Single tall tile */}
+    <div class="h-full min-h-0">
+      <DemoMedia
+        name="strip-7"
+        alt={strip[6].alt}
+        variant="card"
+        radius="radius-1"
+        aspect="none"
+        loading="lazy"
+        class="w-full h-full"
+      />
+    </div>
+  </div>
+
+  {/* Mobile/Tablet 2-column layout (<= 1024px) */}
+  <div class="grid lg:hidden grid-cols-2 gap-x-[10px] gap-y-[12px] px-4 w-full">
+    {
+      strip.map((item) => (
+        <div class="w-full">
+          <DemoMedia
+            name={item.media}
+            alt={item.alt}
+            variant="card"
+            radius="radius-1"
+            loading="lazy"
+            class="w-full"
+          />
+        </div>
+      ))
+    }
+  </div>
+</section>
