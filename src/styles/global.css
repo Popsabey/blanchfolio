@@ -1,4 +1,4 @@
-﻿@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/400.css";
 @import "@fontsource/inter/500.css";
 @import "@fontsource/inter/600.css";
 @import "tailwindcss";
@@ -40,6 +40,10 @@
   --font-size-body: 16px;
   --line-height-body: 1.5;
   --font-weight-body: 400;
+
+  --font-size-body-sm: 14px;
+  --line-height-body-sm: 1.5;
+  --font-weight-body-sm: 400;
 }
 
 @theme {
@@ -77,6 +81,10 @@
   --text-body: 16px;
   --text-body--line-height: 1.5;
   --text-body--font-weight: 400;
+
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 1.5;
+  --text-body-sm--font-weight: 400;
 }
 
 /* Explicit color helper classes */
@@ -114,6 +122,13 @@
   font-size: 16px;
   line-height: 1.5;
   font-weight: 400;
+}
+
+.text-body-sm {
+  font-size: 14px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--color-text-sub);
 }
 
 @media (max-width: 640px) {

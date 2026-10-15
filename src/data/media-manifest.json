@@ -1,0 +1,140 @@
+{
+  "applatchkids-control": {
+    "type": "video",
+    "width": 730,
+    "height": 814,
+    "poster": "/media/applatchkids-control.webp",
+    "mp4": "/media/applatchkids-control.mp4",
+    "webm": "/media/applatchkids-control.webm"
+  },
+  "applatchkids-hero": {
+    "type": "image",
+    "width": 1686,
+    "height": 1102,
+    "poster": "/media/applatchkids-hero.webp"
+  },
+  "applatchkids-locked-ipad": {
+    "type": "video",
+    "width": 1252,
+    "height": 832,
+    "poster": "/media/applatchkids-locked-ipad.webp",
+    "mp4": "/media/applatchkids-locked-ipad.mp4",
+    "webm": "/media/applatchkids-locked-ipad.webm"
+  },
+  "applatchkids-loomey": {
+    "type": "video",
+    "width": 1218,
+    "height": 800,
+    "poster": "/media/applatchkids-loomey.webp",
+    "mp4": "/media/applatchkids-loomey.mp4",
+    "webm": "/media/applatchkids-loomey.webm"
+  },
+  "applatchkids-overview-phone": {
+    "type": "video",
+    "width": 1008,
+    "height": 844,
+    "poster": "/media/applatchkids-overview-phone.webp",
+    "mp4": "/media/applatchkids-overview-phone.mp4",
+    "webm": "/media/applatchkids-overview-phone.webm"
+  },
+  "applatchkids-parents-phone": {
+    "type": "video",
+    "width": 1008,
+    "height": 844,
+    "poster": "/media/applatchkids-parents-phone.webp",
+    "mp4": "/media/applatchkids-parents-phone.mp4",
+    "webm": "/media/applatchkids-parents-phone.webm"
+  },
+  "applatchkids-quiz": {
+    "type": "image",
+    "width": 2000,
+    "height": 1333,
+    "poster": "/media/applatchkids-quiz.webp"
+  },
+  "applatchkids-remote": {
+    "type": "video",
+    "width": 736,
+    "height": 818,
+    "poster": "/media/applatchkids-remote.webp",
+    "mp4": "/media/applatchkids-remote.mp4",
+    "webm": "/media/applatchkids-remote.webm"
+  },
+  "applatchkids-reporting": {
+    "type": "video",
+    "width": 856,
+    "height": 820,
+    "poster": "/media/applatchkids-reporting.webp",
+    "mp4": "/media/applatchkids-reporting.mp4",
+    "webm": "/media/applatchkids-reporting.webm"
+  },
+  "applatchkids-shop": {
+    "type": "video",
+    "width": 1262,
+    "height": 828,
+    "poster": "/media/applatchkids-shop.webp",
+    "mp4": "/media/applatchkids-shop.mp4",
+    "webm": "/media/applatchkids-shop.webm"
+  },
+  "chada-jenna": {
+    "type": "video",
+    "width": 980,
+    "height": 744,
+    "poster": "/media/chada-jenna.webp",
+    "mp4": "/media/chada-jenna.mp4",
+    "webm": "/media/chada-jenna.webm"
+  },
+  "chada-liquidity": {
+    "type": "video",
+    "width": 802,
+    "height": 748,
+    "poster": "/media/chada-liquidity.webp",
+    "mp4": "/media/chada-liquidity.mp4",
+    "webm": "/media/chada-liquidity.webm"
+  },
+  "chada-onboarding": {
+    "type": "video",
+    "width": 946,
+    "height": 796,
+    "poster": "/media/chada-onboarding.webp",
+    "mp4": "/media/chada-onboarding.mp4",
+    "webm": "/media/chada-onboarding.webm"
+  },
+  "chada-portfolio": {
+    "type": "video",
+    "width": 806,
+    "height": 802,
+    "poster": "/media/chada-portfolio.webp",
+    "mp4": "/media/chada-portfolio.mp4",
+    "webm": "/media/chada-portfolio.webm"
+  },
+  "chada-grid-1": {
+    "type": "image",
+    "width": 1024,
+    "height": 710,
+    "poster": "/media/chada-grid-1.webp"
+  },
+  "chada-grid-2": {
+    "type": "image",
+    "width": 916,
+    "height": 710,
+    "poster": "/media/chada-grid-2.webp"
+  },
+  "chada-grid-3": {
+    "type": "image",
+    "width": 870,
+    "height": 710,
+    "poster": "/media/chada-grid-3.webp"
+  },
+  "chada-grid-4": {
+    "type": "image",
+    "width": 1070,
+    "height": 710,
+    "poster": "/media/chada-grid-4.webp"
+  },
+  "chada-hero": {
+    "type": "image",
+    "width": 1870,
+    "height": 1112,
+    "poster": "/media/chada-hero.webp"
+  }
+}

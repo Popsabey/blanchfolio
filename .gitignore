@@ -26,3 +26,7 @@ pnpm-debug.log*
 # Lighthouse reports
 *lighthouse*
 *lh.json
+
+# Media source heavy raw files
+media-source/*
+!media-source/.gitkeep

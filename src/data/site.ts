@@ -1,4 +1,4 @@
-﻿export interface Project {
+export interface Project {
   title: string;
   subtitle: string;
   poster: string;
@@ -33,8 +33,8 @@ export const siteConfig: SiteConfig = {
   title: "Designer & UI Engineer",
   role: "Lead Product Designer & UI Engineer",
   bio: "I design and build clean, intuitive digital experiences for everyday use.",
-  email: "popsabey@gmail.com",
-  xUrl: "https://x.com/popsabey",
+  email: "popsabey.ux@gmail.com",
+  xUrl: "https://x.com/TODO", // TODO: Add real X URL
   projects: [
     {
       title: "ApplatchKids App - Education & Parental Control",
@@ -44,6 +44,7 @@ export const siteConfig: SiteConfig = {
       aspect: "1.76/1",
       radius: "radius-2",
       featured: true,
+      href: "/work/applatchkids",
     },
     {
       title: "Chada - Own & Trade Crypto Assets",

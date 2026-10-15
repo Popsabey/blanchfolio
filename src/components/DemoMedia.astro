@@ -1,115 +1,271 @@
-﻿---
-interface Props {
+---
+import rawManifest from '../data/media-manifest.json';
+
+interface ManifestItem {
+  type: 'video' | 'image';
+  width: number;
+  height: number;
   poster: string;
-  video?: string | { mp4?: string; webm?: string } | null;
+  mp4?: string;
+  webm?: string;
+}
+
+const manifest = rawManifest as Record<string, ManifestItem>;
+
+interface Props {
+  name?: string;
   alt?: string;
-  aspect?: string;
+  variant?: 'card' | 'bare';
+  displayWidth?: number;
   radius?: 'radius-1' | 'radius-2' | string;
+  priority?: boolean;
+  poster?: string;
+  video?: string | { mp4?: string; webm?: string } | null;
+  aspect?: string;
   loading?: 'lazy' | 'eager';
   fetchpriority?: 'high' | 'low' | 'auto';
   class?: string;
 }
 
 const {
-  poster,
-  video = null,
-  alt = 'Project media showcase',
-  aspect,
+  name,
+  alt = 'Showcase media',
+  variant = 'card',
+  displayWidth,
   radius = 'radius-2',
-  loading = 'lazy',
-  fetchpriority = 'auto',
+  priority = false,
+  poster: explicitPoster,
+  video: explicitVideo = null,
+  aspect: explicitAspect,
+  loading: explicitLoading,
+  fetchpriority: explicitFetchPriority,
   class: className = '',
 } = Astro.props;
 
-let webmSrc: string | null = null;
-let mp4Src: string | null = null;
+// Determine priority / loading defaults
+const loading = explicitLoading ?? (priority ? 'eager' : 'lazy');
+const fetchpriority = explicitFetchPriority ?? (priority ? 'high' : 'auto');
 
-if (typeof video === 'string' && video.trim() !== '') {
-  if (video.endsWith('.webm')) {
-    webmSrc = video;
-    mp4Src = video.replace(/\.webm$/, '.mp4');
-  } else if (video.endsWith('.mp4')) {
-    webmSrc = video.replace(/\.mp4$/, '.webm');
-    mp4Src = video;
-  } else {
-    webmSrc = `${video}.webm`;
-    mp4Src = `${video}.mp4`;
+// Lookup in manifest if name prop given
+let item: ManifestItem | null = null;
+let isMissing = false;
+
+if (name) {
+  item = manifest[name] ?? null;
+  if (!item) {
+    isMissing = true;
+    if (import.meta.env.DEV) {
+      console.warn(`[DemoMedia] Warning: Media name "${name}" not found in media-manifest.json.`);
+    }
   }
-} else if (video && typeof video === 'object') {
-  webmSrc = video.webm ?? null;
-  mp4Src = video.mp4 ?? null;
 }
 
-const hasVideo = Boolean(webmSrc || mp4Src);
+// Determine media type & URLs
+let isVideo = false;
+let effectivePoster = explicitPoster ?? '';
+let webmSrc: string | null = null;
+let mp4Src: string | null = null;
+let intrinsicAspect = explicitAspect;
+let mediaWidth: number | undefined;
+let mediaHeight: number | undefined;
+
+if (item) {
+  isVideo = item.type === 'video';
+  effectivePoster = item.poster;
+  webmSrc = item.webm ?? null;
+  mp4Src = item.mp4 ?? null;
+  mediaWidth = item.width;
+  mediaHeight = item.height;
+  if (item.width && item.height) {
+    intrinsicAspect = `${item.width} / ${item.height}`;
+  }
+} else if (!isMissing && explicitPoster) {
+  // Legacy props from homepage
+  effectivePoster = explicitPoster;
+  if (typeof explicitVideo === 'string' && explicitVideo.trim() !== '') {
+    if (explicitVideo.endsWith('.webm')) {
+      webmSrc = explicitVideo;
+      mp4Src = explicitVideo.replace(/\.webm$/, '.mp4');
+    } else if (explicitVideo.endsWith('.mp4')) {
+      webmSrc = explicitVideo.replace(/\.mp4$/, '.webm');
+      mp4Src = explicitVideo;
+    } else {
+      webmSrc = `${explicitVideo}.webm`;
+      mp4Src = `${explicitVideo}.mp4`;
+    }
+  } else if (explicitVideo && typeof explicitVideo === 'object') {
+    webmSrc = explicitVideo.webm ?? null;
+    mp4Src = explicitVideo.mp4 ?? null;
+  }
+  isVideo = Boolean(webmSrc || mp4Src);
+}
 
 const radiusClass =
-  radius === 'radius-1'
-    ? 'rounded-[8px]'
-    : radius === 'radius-2'
-      ? 'rounded-[12px]'
-      : radius;
+  variant === 'card'
+    ? radius === 'radius-1'
+      ? 'rounded-[8px]'
+      : radius === 'radius-2'
+        ? 'rounded-[12px]'
+        : radius
+    : '';
 
-const webpPoster = poster.replace(/\.png$/, '.webp');
+const webpPoster = effectivePoster ? effectivePoster.replace(/\.png$/, '.webp') : '';
+
+// Container styles
+const containerStyles: Record<string, string> = {};
+if (intrinsicAspect) {
+  containerStyles['aspect-ratio'] = intrinsicAspect;
+}
+if (displayWidth) {
+  containerStyles['max-width'] = `${displayWidth}px`;
+}
+const styleString = Object.entries(containerStyles)
+  .map(([k, v]) => `${k}: ${v};`)
+  .join(' ');
 ---
 
-<div
-  class:list={[
-    'demo-media-container relative w-full overflow-hidden bg-[#F1F1F1]',
-    radiusClass,
-    className,
-  ]}
-  style={aspect ? `aspect-ratio: ${aspect};` : undefined}
->
-  {
-    hasVideo ? (
-      <>
-        <picture class="demo-media-poster w-full h-full object-cover hidden">
-          <source srcset={webpPoster} type="image/webp" />
+{
+  isMissing ? (
+    <div
+      class:list={[
+        'demo-media-placeholder flex items-center justify-center bg-[#F1F1F1] text-[#737373] text-[13px] border border-dashed border-[#D4D4D4] mx-auto w-full',
+        variant === 'card' ? 'rounded-[12px]' : 'rounded-[8px]',
+        className,
+      ]}
+      style={styleString || 'aspect-ratio: 16/9;'}
+      aria-label={`Missing media: ${name}`}
+    >
+      <span class="px-4 py-2 text-center select-none font-mono opacity-80">
+        [Media: {name}]
+      </span>
+    </div>
+  ) : variant === 'bare' ? (
+    <div
+      class:list={[
+        'demo-media-container relative w-full mx-auto overflow-hidden',
+        className,
+      ]}
+      style={styleString}
+    >
+      {isVideo ? (
+        <>
+          <picture class="demo-media-poster w-full h-auto block hidden">
+            {webpPoster && <source srcset={webpPoster} type="image/webp" />}
+            <img
+              src={effectivePoster}
+              alt={alt}
+              width={mediaWidth}
+              height={mediaHeight}
+              loading={loading}
+              fetchpriority={fetchpriority}
+              decoding={loading === 'eager' ? 'sync' : 'async'}
+              class="w-full h-auto block"
+            />
+          </picture>
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster={effectivePoster}
+            class="demo-media-video w-full h-auto block"
+            aria-label={alt}
+          >
+            {webmSrc && <source src={webmSrc} type="video/webm" />}
+            {mp4Src && <source src={mp4Src} type="video/mp4" />}
+            <img
+              src={effectivePoster}
+              alt={alt}
+              width={mediaWidth}
+              height={mediaHeight}
+              loading={loading}
+              decoding="async"
+              class="w-full h-auto block"
+            />
+          </video>
+        </>
+      ) : (
+        <picture class="w-full h-auto block">
+          {webpPoster && <source srcset={webpPoster} type="image/webp" />}
           <img
-            src={poster}
+            src={effectivePoster}
             alt={alt}
+            width={mediaWidth}
+            height={mediaHeight}
             loading={loading}
             fetchpriority={fetchpriority}
             decoding={loading === 'eager' ? 'sync' : 'async'}
-            class="w-full h-full object-cover"
+            class="w-full h-auto block"
           />
         </picture>
-        <video
-          autoplay
-          muted
-          loop
-          playsinline
-          preload="metadata"
-          poster={poster}
-          class="demo-media-video w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.015]"
-          aria-label={alt}
-        >
-          {webmSrc && <source src={webmSrc} type="video/webm" />}
-          {mp4Src && <source src={mp4Src} type="video/mp4" />}
+      )}
+    </div>
+  ) : (
+    <div
+      class:list={[
+        'demo-media-container relative w-full overflow-hidden bg-[#F1F1F1]',
+        radiusClass,
+        className,
+      ]}
+      style={styleString}
+    >
+      {isVideo ? (
+        <>
+          <picture class="demo-media-poster w-full h-full object-cover hidden">
+            {webpPoster && <source srcset={webpPoster} type="image/webp" />}
+            <img
+              src={effectivePoster}
+              alt={alt}
+              width={mediaWidth}
+              height={mediaHeight}
+              loading={loading}
+              fetchpriority={fetchpriority}
+              decoding={loading === 'eager' ? 'sync' : 'async'}
+              class="w-full h-full object-cover"
+            />
+          </picture>
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster={effectivePoster}
+            class="demo-media-video w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.015]"
+            aria-label={alt}
+          >
+            {webmSrc && <source src={webmSrc} type="video/webm" />}
+            {mp4Src && <source src={mp4Src} type="video/mp4" />}
+            <img
+              src={effectivePoster}
+              alt={alt}
+              width={mediaWidth}
+              height={mediaHeight}
+              loading={loading}
+              decoding="async"
+              class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.015]"
+            />
+          </video>
+        </>
+      ) : (
+        <picture class="w-full h-full block">
+          {webpPoster && <source srcset={webpPoster} type="image/webp" />}
           <img
-            src={poster}
+            src={effectivePoster}
             alt={alt}
+            width={mediaWidth}
+            height={mediaHeight}
             loading={loading}
-            decoding="async"
-            class="w-full h-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.015]"
+            fetchpriority={fetchpriority}
+            decoding={loading === 'eager' ? 'sync' : 'async'}
+            class="w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.015]"
           />
-        </video>
-      </>
-    ) : (
-      <picture class="w-full h-full block">
-        <source srcset={webpPoster} type="image/webp" />
-        <img
-          src={poster}
-          alt={alt}
-          loading={loading}
-          fetchpriority={fetchpriority}
-          decoding={loading === 'eager' ? 'sync' : 'async'}
-          class="w-full h-full object-cover block transition-transform duration-500 ease-out group-hover:scale-[1.015]"
-        />
-      </picture>
-    )
-  }
-</div>
+        </picture>
+      )}
+    </div>
+  )
+}
 
 <style>
   @media (prefers-reduced-motion: reduce) {
